@@ -1,0 +1,38 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+/build/
+/ios/Pods/
+/ios/Flutter/App.framework
+/ios/Flutter/engine.xcconfig
+/ios/Flutter/podhelper.rb
+/ios/Flutter/flutter_export_environment.sh
+/ios/.symlinks/
+/ios/Runner/GeneratedPluginRegistrant.*
+/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
+/android/.gradle/
+/android/local.properties
+/android/key.properties
+
+# Visual Studio Code
+.vscode/
