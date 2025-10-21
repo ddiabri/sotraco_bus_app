@@ -15,7 +15,13 @@
       "Bash(node convert_svg.js:*)",
       "Bash(findstr:*)",
       "Bash(dir:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(cat:*)",
+      "Read(//c/Users/ddiab/AppData/Local/Android/Sdk/platforms/android-35/**)",
+      "Read(//c/Users/ddiab/AppData/Local/Android/Sdk/cmdline-tools/latest/bin/**)",
+      "Bash(wsl --version:*)",
+      "Bash(wsl bash -c \"cd /mnt/c/Users/ddiab/sotraco_bus_app && ls -la\")"
     ],
     "deny": [],
     "ask": []

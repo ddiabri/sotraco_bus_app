@@ -65,6 +65,7 @@ class RouteFinder {
   static List<Journey> _findJourneys(
       String departure, String arrival, List<BusRoute> allRoutes) {
     final journeys = <Journey>[];
+    final seenJourneySignatures = <String>{}; // Track unique journey combinations
     final stopToRoutes = <String, List<BusRoute>>{};
     final stopMap = <String, BusStop>{};
 
@@ -92,8 +93,15 @@ class RouteFinder {
       final currentNode = priorityQueue.removeAt(0);
 
       if (currentNode.stop.name.toLowerCase().contains(arrival)) {
-        journeys.add(_reconstructJourney(currentNode));
-        if (journeys.length >= 3) return journeys; // Stop if we have enough options
+        final journey = _reconstructJourney(currentNode);
+        final signature = _getJourneySignature(journey);
+
+        // Only add if this exact journey hasn't been found before
+        if (!seenJourneySignatures.contains(signature)) {
+          seenJourneySignatures.add(signature);
+          journeys.add(journey);
+          if (journeys.length >= 3) return journeys; // Stop if we have enough unique options
+        }
         continue;
       }
 
@@ -116,6 +124,13 @@ class RouteFinder {
     }
 
     return journeys;
+  }
+
+  // Generate a unique signature for a journey based on route numbers and transfer stops
+  static String _getJourneySignature(Journey journey) {
+    final routeNumbers = journey.routes.map((r) => r.lineNumber).join('-');
+    final transferStopNames = journey.transferStops.map((s) => s.name.toLowerCase()).join('|');
+    return '$routeNumbers:$transferStopNames';
   }
 
   static void _addNodeToQueue(
