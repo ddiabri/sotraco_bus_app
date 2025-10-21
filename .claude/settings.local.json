@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter build:*)",
+      "Bash(firebase --version)",
+      "Bash(firebase login:*)",
+      "Bash(keytool:*)",
+      "Bash(flutter run:*)",
+      "Bash(flutter:*)",
+      "Bash(timeout:*)",
+      "Bash(start ms-settings:developers)",
+      "Bash(rm:*)",
+      "Bash(where:*)",
+      "Bash(npm install:*)",
+      "Bash(node convert_svg.js:*)",
+      "Bash(findstr:*)",
+      "Bash(dir:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

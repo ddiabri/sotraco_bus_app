@@ -1,0 +1,12 @@
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "play_store_assets/app_icon_512.png"
+  adaptive_icon_background: "#4CAF50"
+  adaptive_icon_foreground: "play_store_assets/app_icon_512.png"
+
+# Instructions:
+# 1. Convertissez d'abord app_icon.svg en PNG 512x512 (utilisez svg_to_png_converter.html)
+# 2. Placez le fichier app_icon_512.png dans le dossier play_store_assets/
+# 3. Exécutez: flutter pub get
+# 4. Exécutez: flutter pub run flutter_launcher_icons

@@ -1,0 +1,31 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#4CAF50"/>
+
+  <!-- Bus body -->
+  <rect x="120" y="180" width="272" height="180" rx="20" fill="#FFFFFF"/>
+
+  <!-- Bus roof -->
+  <path d="M 140 180 Q 256 150 372 180" fill="#E8F5E9"/>
+
+  <!-- Windows -->
+  <rect x="145" y="200" width="80" height="70" rx="8" fill="#4CAF50" opacity="0.3"/>
+  <rect x="240" y="200" width="80" height="70" rx="8" fill="#4CAF50" opacity="0.3"/>
+  <rect x="335" y="200" width="42" height="70" rx="8" fill="#4CAF50" opacity="0.3"/>
+
+  <!-- Front lights -->
+  <circle cx="150" cy="330" r="12" fill="#FFC107"/>
+  <circle cx="362" cy="330" r="12" fill="#FFC107"/>
+
+  <!-- Wheels -->
+  <circle cx="180" cy="370" r="28" fill="#424242"/>
+  <circle cx="180" cy="370" r="15" fill="#757575"/>
+  <circle cx="332" cy="370" r="28" fill="#424242"/>
+  <circle cx="332" cy="370" r="15" fill="#757575"/>
+
+  <!-- Door lines -->
+  <line x1="220" y1="280" x2="220" y2="350" stroke="#4CAF50" stroke-width="3"/>
+
+  <!-- SOTRACO text -->
+  <text x="256" y="320" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#4CAF50" text-anchor="middle">SOTRACO</text>
+</svg>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur SVG vers PNG - SOTRACO Bus</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        .converter-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .preview {
+            margin: 20px 0;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+        }
+        .preview img {
+            max-width: 100%;
+            height: auto;
+        }
+        .instructions {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        .file-input {
+            margin: 15px 0;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        .status.success {
+            background: #c8e6c9;
+            color: #2e7d32;
+            display: block;
+        }
+        .status.error {
+            background: #ffcdd2;
+            color: #c62828;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚌 Convertisseur SVG → PNG</h1>
+        <p style="text-align: center; color: #666;">
+            Outil pour convertir vos fichiers SVG en PNG pour Google Play Store
+        </p>
+
+        <div class="instructions">
+            <h3>📋 Instructions</h3>
+            <ol>
+                <li>Choisissez le fichier SVG à convertir (app_icon.svg ou feature_graphic.svg)</li>
+                <li>Cliquez sur le bouton de conversion correspondant</li>
+                <li>Le fichier PNG sera téléchargé automatiquement</li>
+            </ol>
+        </div>
+
+        <!-- App Icon Converter -->
+        <div class="converter-section">
+            <h2>🎯 Icône d'application (512x512 px)</h2>
+            <div class="file-input">
+                <input type="file" id="iconFile" accept=".svg" />
+            </div>
+            <button onclick="convertIcon()">Convertir en PNG 512x512</button>
+            <div id="iconStatus" class="status"></div>
+            <div id="iconPreview" class="preview" style="display: none;">
+                <h4>Aperçu :</h4>
+                <img id="iconImg" alt="Aperçu icône" />
+            </div>
+        </div>
+
+        <!-- Feature Graphic Converter -->
+        <div class="converter-section">
+            <h2>🖼️ Icône de fonctionnalité (1024x500 px)</h2>
+            <div class="file-input">
+                <input type="file" id="featureFile" accept=".svg" />
+            </div>
+            <button onclick="convertFeature()">Convertir en PNG 1024x500</button>
+            <div id="featureStatus" class="status"></div>
+            <div id="featurePreview" class="preview" style="display: none;">
+                <h4>Aperçu :</h4>
+                <img id="featureImg" alt="Aperçu feature graphic" />
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>✅ Après conversion</h3>
+            <ul>
+                <li><strong>app_icon_512.png</strong> - À uploader dans Google Play Console → Store listing → App icon</li>
+                <li><strong>feature_graphic_1024x500.png</strong> - À uploader dans Google Play Console → Store listing → Feature graphic</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function convertSVGtoPNG(file, width, height, filename, statusId, previewId, imgId) {
+            if (!file) {
+                showStatus(statusId, 'error', 'Veuillez sélectionner un fichier SVG');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const svgContent = e.target.result;
+
+                // Create canvas
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+
+                // Create image from SVG
+                const img = new Image();
+                const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+
+                img.onload = function() {
+                    // Draw on canvas
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Show preview
+                    const previewImg = document.getElementById(imgId);
+                    previewImg.src = canvas.toDataURL('image/png');
+                    document.getElementById(previewId).style.display = 'block';
+
+                    // Download PNG
+                    canvas.toBlob(function(blob) {
+                        const link = document.createElement('a');
+                        link.download = filename;
+                        link.href = URL.createObjectURL(blob);
+                        link.click();
+
+                        showStatus(statusId, 'success', `✓ ${filename} téléchargé avec succès !`);
+                    }, 'image/png');
+
+                    URL.revokeObjectURL(url);
+                };
+
+                img.onerror = function() {
+                    showStatus(statusId, 'error', 'Erreur lors de la conversion. Vérifiez que le fichier SVG est valide.');
+                };
+
+                img.src = url;
+            };
+
+            reader.onerror = function() {
+                showStatus(statusId, 'error', 'Erreur lors de la lecture du fichier');
+            };
+
+            reader.readAsText(file);
+        }
+
+        function showStatus(statusId, type, message) {
+            const statusEl = document.getElementById(statusId);
+            statusEl.className = `status ${type}`;
+            statusEl.textContent = message;
+        }
+
+        function convertIcon() {
+            const file = document.getElementById('iconFile').files[0];
+            convertSVGtoPNG(file, 512, 512, 'app_icon_512.png', 'iconStatus', 'iconPreview', 'iconImg');
+        }
+
+        function convertFeature() {
+            const file = document.getElementById('featureFile').files[0];
+            convertSVGtoPNG(file, 1024, 500, 'feature_graphic_1024x500.png', 'featureStatus', 'featurePreview', 'featureImg');
+        }
+    </script>
+</body>
+</html>

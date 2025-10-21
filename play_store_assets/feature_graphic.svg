@@ -1,0 +1,50 @@
+<svg width="1024" height="500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1024" height="500" fill="#4CAF50"/>
+
+  <!-- Decorative pattern -->
+  <circle cx="900" cy="100" r="80" fill="#66BB6A" opacity="0.3"/>
+  <circle cx="100" cy="400" r="60" fill="#66BB6A" opacity="0.3"/>
+  <circle cx="800" cy="380" r="50" fill="#81C784" opacity="0.2"/>
+
+  <!-- Main bus illustration -->
+  <g transform="translate(50, 100)">
+    <!-- Bus body -->
+    <rect x="0" y="50" width="340" height="220" rx="25" fill="#FFFFFF"/>
+
+    <!-- Bus roof -->
+    <path d="M 25 50 Q 170 15 315 50" fill="#E8F5E9"/>
+
+    <!-- Windows -->
+    <rect x="20" y="75" width="95" height="85" rx="10" fill="#4CAF50" opacity="0.3"/>
+    <rect x="130" y="75" width="95" height="85" rx="10" fill="#4CAF50" opacity="0.3"/>
+    <rect x="240" y="75" width="80" height="85" rx="10" fill="#4CAF50" opacity="0.3"/>
+
+    <!-- Front lights -->
+    <circle cx="30" cy="240" r="15" fill="#FFC107"/>
+    <circle cx="310" cy="240" r="15" fill="#FFC107"/>
+
+    <!-- Wheels -->
+    <circle cx="80" cy="280" r="35" fill="#424242"/>
+    <circle cx="80" cy="280" r="20" fill="#757575"/>
+    <circle cx="260" cy="280" r="35" fill="#424242"/>
+    <circle cx="260" cy="280" r="20" fill="#757575"/>
+
+    <!-- Door -->
+    <rect x="150" y="170" width="50" height="100" rx="5" fill="#E0E0E0"/>
+    <line x1="175" y1="180" x2="175" y2="260" stroke="#4CAF50" stroke-width="2"/>
+  </g>
+
+  <!-- App title -->
+  <text x="450" y="200" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#FFFFFF">SOTRACO Bus</text>
+
+  <!-- Subtitle -->
+  <text x="450" y="260" font-family="Arial, sans-serif" font-size="36" fill="#E8F5E9">Naviguez Ouagadougou</text>
+
+  <!-- Features -->
+  <g transform="translate(450, 300)">
+    <text y="0" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF">✓ Recherche d'itinéraires</text>
+    <text y="40" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF">✓ Correspondances multiples</text>
+    <text y="80" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF">✓ Interface en français</text>
+  </g>
+</svg>
