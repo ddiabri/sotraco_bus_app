@@ -25,6 +25,15 @@ jobs:
         flutter-version: '3.16.0'
         channel: 'stable'
 
+    - name: Update Android SDK
+      run: |
+        yes | sdkmanager --licenses || true
+        sdkmanager --update
+        sdkmanager --uninstall "platforms;android-35"
+        sdkmanager "platforms;android-35"
+        sdkmanager "build-tools;34.0.0"
+        sdkmanager "platform-tools"
+
     - name: Install dependencies
       run: flutter pub get
 
