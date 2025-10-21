@@ -27,12 +27,10 @@ jobs:
 
     - name: Update Android SDK
       run: |
-        yes | sdkmanager --licenses || true
-        sdkmanager --update
-        sdkmanager --uninstall "platforms;android-35"
-        sdkmanager "platforms;android-35"
-        sdkmanager "build-tools;34.0.0"
-        sdkmanager "platform-tools"
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --update
+        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --uninstall "platforms;android-35"
+        $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-35"
 
     - name: Install dependencies
       run: flutter pub get
