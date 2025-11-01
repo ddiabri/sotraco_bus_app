@@ -33,6 +33,9 @@ out/
 /android/.gradle/
 /android/local.properties
 /android/key.properties
+*.jks
+*.jks.old
+KEYSTORE_INFO.txt
 
 # Visual Studio Code
 .vscode/

@@ -1,4 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Permissions requises pour l'application -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Déclaration des intents que l'application peut interroger (Android 11+) -->
+    <queries>
+        <!-- Pour ouvrir les liens téléphone -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+        <!-- Pour ouvrir les liens email -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <!-- Pour ouvrir les liens web -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
         android:label="SOTRACO Bus"
         android:name="${applicationName}"
