@@ -29,7 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.sotraco.busapp"
+    namespace "com.campusride.ouaga"
     compileSdkVersion 35
     ndkVersion flutter.ndkVersion
 
@@ -47,7 +47,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.sotraco.busapp"
+        applicationId "com.campusride.ouaga"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21

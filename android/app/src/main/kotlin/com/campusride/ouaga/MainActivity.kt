@@ -1,4 +1,4 @@
-package com.sotraco.busapp
+package com.campusride.ouaga
 
 import io.flutter.embedding.android.FlutterActivity
 
