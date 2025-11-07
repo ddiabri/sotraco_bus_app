@@ -22,7 +22,7 @@
     </queries>
 
     <application
-        android:label="SOTRACO Bus"
+        android:label="CampusRide"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -51,5 +51,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- AdMob App ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4878336509068044~8838284288"/>
     </application>
 </manifest>

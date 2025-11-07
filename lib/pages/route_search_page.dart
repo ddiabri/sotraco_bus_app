@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/bus_route.dart';
 import '../services/route_finder.dart';
 import '../data/routes_data.dart';
+import '../widgets/banner_ad_widget.dart';
 
 class RouteSearchPage extends StatefulWidget {
   const RouteSearchPage({super.key});
@@ -200,6 +201,8 @@ class _RouteSearchPageState extends State<RouteSearchPage> {
                   )
                 : _buildResults(),
           ),
+          // Banner Ad at bottom
+          const BannerAdWidget(),
         ],
       ),
     );
@@ -271,23 +274,35 @@ class _RouteSearchPageState extends State<RouteSearchPage> {
   Widget _buildResults() {
     final hasDirectRoutes = searchResult!.directRoutes.isNotEmpty;
     final hasJourneys = searchResult!.journeys.isNotEmpty;
+    final hasNearbyDepartures = searchResult!.nearbyDepartures.isNotEmpty;
+    final hasNearbyArrivals = searchResult!.nearbyArrivals.isNotEmpty;
 
     if (!hasDirectRoutes && !hasJourneys) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      return Center(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          shrinkWrap: true,
           children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.orange),
-            SizedBox(height: 16),
-            Text(
-              'Aucun itinéraire trouvé',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 64, color: Colors.orange),
+                SizedBox(height: 16),
+                Text(
+                  'Aucun itinéraire trouvé',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Essayez d\'ajuster vos termes de recherche',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
             ),
-            SizedBox(height: 8),
-            Text(
-              'Essayez d\'ajuster vos termes de recherche',
-              style: TextStyle(color: Colors.grey),
-            ),
+            if (hasNearbyDepartures || hasNearbyArrivals) ...[
+              const SizedBox(height: 24),
+              _buildNearbyStopsSection(),
+            ],
           ],
         ),
       );
@@ -307,7 +322,120 @@ class _RouteSearchPageState extends State<RouteSearchPage> {
           const SizedBox(height: 8),
           ...searchResult!.journeys.map((journey) => _buildJourneyCard(journey)),
         ],
+        if (hasNearbyDepartures || hasNearbyArrivals) ...[
+          const SizedBox(height: 16),
+          _buildNearbyStopsSection(),
+        ],
       ],
+    );
+  }
+
+  Widget _buildNearbyStopsSection() {
+    final hasNearbyDepartures = searchResult!.nearbyDepartures.isNotEmpty;
+    final hasNearbyArrivals = searchResult!.nearbyArrivals.isNotEmpty;
+
+    return Card(
+      color: Colors.blue[50],
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.directions_walk, color: Colors.blue[700]),
+                const SizedBox(width: 8),
+                Text(
+                  'Arrêts à proximité',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[900],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Ces arrêts sont proches de votre recherche et pourraient offrir de meilleurs itinéraires :',
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.blue[800],
+              ),
+            ),
+            if (hasNearbyDepartures) ...[
+              const SizedBox(height: 12),
+              Text(
+                'Près du départ :',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[900],
+                ),
+              ),
+              const SizedBox(height: 4),
+              ...searchResult!.nearbyDepartures.map((suggestion) =>
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    children: [
+                      Icon(Icons.place, size: 16, color: Colors.blue[600]),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          suggestion.stop.name,
+                          style: const TextStyle(fontSize: 13),
+                        ),
+                      ),
+                      Text(
+                        '(${(suggestion.distance * 1000).toStringAsFixed(0)}m)',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blue[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            if (hasNearbyArrivals) ...[
+              const SizedBox(height: 12),
+              Text(
+                'Près de l\'arrivée :',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[900],
+                ),
+              ),
+              const SizedBox(height: 4),
+              ...searchResult!.nearbyArrivals.map((suggestion) =>
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    children: [
+                      Icon(Icons.place, size: 16, color: Colors.blue[600]),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          suggestion.stop.name,
+                          style: const TextStyle(fontSize: 13),
+                        ),
+                      ),
+                      Text(
+                        '(${(suggestion.distance * 1000).toStringAsFixed(0)}m)',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blue[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 
@@ -389,86 +517,152 @@ class _RouteSearchPageState extends State<RouteSearchPage> {
   Widget _buildJourneyCard(Journey journey) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(journey.routes.length, (index) {
-            final route = journey.routes[index];
-            final isFirst = index == 0;
-            final isLast = index == journey.routes.length - 1;
-
-            String from = isFirst ? departureController.text : journey.transferStops[index - 1].name;
-            String to = isLast ? arrivalController.text : journey.transferStops[index].name;
-
-            return IntrinsicHeight(
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => JourneyDetailPage(journey: journey),
+            ),
+          );
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            // Journey summary header with distance
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.green[50],
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: getCategoryColor(route.category),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(
-                            route.lineNumber,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      if (!isLast)
-                        Expanded(
-                          child: Container(
-                            width: 2,
-                            color: Colors.grey,
-                          ),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(width: 12),
+                  Icon(Icons.route, color: Colors.green[700], size: 20),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'De : $from',
+                          '${journey.transferStops.length} ${journey.transferStops.length == 1 ? "correspondance" : "correspondances"}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green[900],
+                          ),
                         ),
-                        const Spacer(),
-                        if (!isLast)
-                          Row(
-                            children: [
-                              const Icon(Icons.transfer_within_a_station, color: Colors.orange, size: 18),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Correspondance à : $to',
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
+                        Text(
+                          'Distance totale : ${journey.totalDistance.toStringAsFixed(2)} km',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.green[700],
                           ),
-                        if (isLast)
-                           Text(
-                            'À : $to',
-                             style: const TextStyle(fontWeight: FontWeight.bold)
-                          ),
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
-            );
-          }),
+            ),
+            const SizedBox(height: 12),
+            // Route details
+            ...List.generate(journey.routes.length, (index) {
+              final route = journey.routes[index];
+              final isFirst = index == 0;
+              final isLast = index == journey.routes.length - 1;
+
+              String from = isFirst ? journey.departureStop.name : journey.transferStops[index - 1].name;
+              String to = isLast ? journey.arrivalStop.name : journey.transferStops[index].name;
+
+              return IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: getCategoryColor(route.category),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                            child: Text(
+                              route.lineNumber,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (!isLast)
+                          Expanded(
+                            child: Container(
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'De : $from',
+                          ),
+                          const Spacer(),
+                          if (!isLast)
+                            Row(
+                              children: [
+                                const Icon(Icons.transfer_within_a_station, color: Colors.orange, size: 18),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'Correspondance à : $to',
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          if (isLast)
+                            Text(
+                              'À : $to',
+                              style: const TextStyle(fontWeight: FontWeight.bold)
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+            const SizedBox(height: 8),
+            // Tap indicator
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Voir les détails',
+                  style: TextStyle(
+                    color: Colors.green[700],
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: Colors.green[700]),
+              ],
+            ),
+          ],
         ),
+      ),
       ),
     );
   }
@@ -491,8 +685,14 @@ class RouteDetailPage extends StatelessWidget {
     final departureIndex = route.stops.indexWhere((s) => s.name.toLowerCase().contains(departure!.toLowerCase()));
     final arrivalIndex = route.stops.indexWhere((s) => s.name.toLowerCase().contains(arrival!.toLowerCase()));
 
+    // Only show the portion of the route between departure and arrival
     final isReversed = departureIndex > arrivalIndex;
-    final displayedStops = isReversed ? route.stops.reversed.toList() : route.stops;
+    final int firstIdx = isReversed ? arrivalIndex : departureIndex;
+    final int lastIdx = isReversed ? departureIndex : arrivalIndex;
+    var displayedStops = route.stops.sublist(firstIdx, lastIdx + 1);
+    if (isReversed) {
+      displayedStops = displayedStops.reversed.toList();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -544,6 +744,15 @@ class RouteDetailPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${displayedStops.length} arrêts sur votre trajet',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
@@ -631,6 +840,297 @@ class RouteDetailPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class JourneyDetailPage extends StatelessWidget {
+  final Journey journey;
+
+  const JourneyDetailPage({
+    super.key,
+    required this.journey,
+  });
+
+  Color getCategoryColor(String category) {
+    switch (category) {
+      case 'Regular Lines':
+        return Colors.blue;
+      case 'Student Lines':
+        return Colors.orange;
+      case 'Intercommunal Lines':
+        return Colors.purple;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Itinéraire avec correspondance'),
+        backgroundColor: const Color(0xFF4CAF50),
+        foregroundColor: Colors.white,
+      ),
+      body: Column(
+        children: [
+          // Journey summary header
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            color: Colors.grey[100],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.directions_bus, color: Colors.green[700]),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        '${journey.routes.length} bus - ${journey.transferStops.length} ${journey.transferStops.length == 1 ? "correspondance" : "correspondances"}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Distance totale : ${journey.totalDistance.toStringAsFixed(2)} km',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Route segments with stops
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: journey.routes.length,
+              itemBuilder: (context, routeIndex) {
+                final route = journey.routes[routeIndex];
+                final isFirst = routeIndex == 0;
+                final isLast = routeIndex == journey.routes.length - 1;
+
+                // Determine start and end stops for this route segment
+                final startStop = isFirst
+                    ? journey.departureStop
+                    : journey.transferStops[routeIndex - 1];
+                final endStop = isLast
+                    ? journey.arrivalStop
+                    : journey.transferStops[routeIndex];
+
+                // Find indices in the route's stop list
+                final startIndex = route.stops.indexWhere(
+                  (s) => s.name.toLowerCase() == startStop.name.toLowerCase()
+                );
+                final endIndex = route.stops.indexWhere(
+                  (s) => s.name.toLowerCase() == endStop.name.toLowerCase()
+                );
+
+                // Get stops in correct order
+                final isReversed = startIndex > endIndex;
+                final int firstIdx = isReversed ? endIndex : startIndex;
+                final int lastIdx = isReversed ? startIndex : endIndex;
+                var segmentStops = route.stops.sublist(firstIdx, lastIdx + 1);
+                if (isReversed) {
+                  segmentStops = segmentStops.reversed.toList();
+                }
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Route segment header
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: getCategoryColor(route.category).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: getCategoryColor(route.category),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(
+                                route.lineNumber,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  route.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Text(
+                                  '${segmentStops.length} arrêts',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // Stops list for this segment
+                    ...segmentStops.asMap().entries.map((entry) {
+                      final stopIndex = entry.key;
+                      final stop = entry.value;
+                      final isSegmentLast = stopIndex == segmentStops.length - 1;
+
+                      final isDeparture = stop.name.toLowerCase() == journey.departureStop.name.toLowerCase();
+                      final isArrival = stop.name.toLowerCase() == journey.arrivalStop.name.toLowerCase();
+                      final isTransfer = journey.transferStops.any(
+                        (t) => t.name.toLowerCase() == stop.name.toLowerCase()
+                      );
+
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(width: 20),
+                          Column(
+                            children: [
+                              if (stopIndex != 0)
+                                Container(
+                                  width: 2,
+                                  height: 20,
+                                  color: getCategoryColor(route.category),
+                                ),
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: (isDeparture || isArrival || isTransfer)
+                                      ? Colors.orange
+                                      : Colors.white,
+                                  border: Border.all(
+                                    color: getCategoryColor(route.category),
+                                    width: 3,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              if (!isSegmentLast)
+                                Container(
+                                  width: 2,
+                                  height: 40,
+                                  color: getCategoryColor(route.category),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    stop.name,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: (isDeparture || isArrival || isTransfer)
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                  if (isDeparture)
+                                    Text(
+                                      'Départ',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.green[800],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  if (isTransfer)
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.transfer_within_a_station,
+                                          size: 16,
+                                          color: Colors.orange[800],
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          'Correspondance',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.orange[800],
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  if (isArrival)
+                                    Text(
+                                      'Arrivée',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.green[800],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                    if (!isLast)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 20),
+                            Icon(Icons.sync_alt, color: Colors.orange[700]),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Changement de bus',
+                              style: TextStyle(
+                                color: Colors.orange[700],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                   ],
                 );
               },

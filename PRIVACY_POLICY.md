@@ -1,20 +1,20 @@
-# Politique de Confidentialité - SOTRACO Bus
+# Politique de Confidentialité - CampusRide
 
-**Dernière mise à jour : 1er novembre 2025**
+**Dernière mise à jour : 7 novembre 2025**
 
 ## Introduction
 
-La présente politique de confidentialité régit l'utilisation de l'application mobile SOTRACO Bus ("l'Application"). Cette Application a été développée pour aider les utilisateurs à naviguer sur le réseau de bus SOTRACO à Ouagadougou, Burkina Faso.
+La présente politique de confidentialité régit l'utilisation de l'application mobile CampusRide ("l'Application"). Cette Application a été développée pour aider les utilisateurs à naviguer sur le réseau de bus SOTRACO à Ouagadougou, Burkina Faso.
 
-Nous nous engageons à protéger votre vie privée. Cette politique explique quelles informations nous collectons (ou ne collectons pas) et comment elles sont utilisées.
+Nous nous engageons à protéger votre vie privée. Cette politique explique quelles informations nous collectons et comment elles sont utilisées.
 
 ## Collecte d'informations
 
 ### Informations personnelles
 
-**L'Application SOTRACO Bus ne collecte, ne stocke et ne partage AUCUNE information personnelle identifiable.**
+**L'Application CampusRide ne collecte, ne stocke et ne partage AUCUNE information personnelle identifiable.**
 
-L'Application fonctionne entièrement hors ligne et ne nécessite pas de :
+L'Application ne nécessite pas de :
 - Création de compte utilisateur
 - Inscription
 - Connexion
@@ -22,13 +22,31 @@ L'Application fonctionne entièrement hors ligne et ne nécessite pas de :
 
 ### Données d'utilisation
 
-**Aucune donnée d'utilisation n'est collectée, suivie ou transmise** par l'Application. Toutes les fonctionnalités de l'Application s'exécutent localement sur votre appareil.
+**Nous ne collectons aucune donnée personnelle directement**. Cependant, l'Application utilise des services tiers qui peuvent collecter des informations anonymes :
+
+#### Google AdMob
+L'Application affiche des publicités via Google AdMob. AdMob peut collecter :
+- Identifiant publicitaire de l'appareil (pour personnaliser les annonces)
+- Informations techniques de l'appareil (modèle, version OS)
+- Données d'interaction avec les publicités
+
+Pour plus d'informations sur la collecte de données par AdMob, consultez :
+- [Politique de confidentialité de Google](https://policies.google.com/privacy)
+- [Comment Google utilise les données des applications](https://policies.google.com/technologies/partner-sites)
+
+Vous pouvez gérer vos préférences publicitaires :
+- **Android** : Paramètres → Google → Annonces → Réinitialiser l'ID publicitaire
+- **iOS** : Réglages → Confidentialité → Suivi → Désactiver "Autoriser les apps à demander de suivre"
 
 ### Permissions de l'Application
 
 L'Application demande les permissions suivantes :
 
-1. **INTERNET** : Cette permission est nécessaire uniquement pour permettre aux utilisateurs d'ouvrir les liens de contact de SOTRACO (numéro de téléphone, adresse email) depuis la page d'informations de l'Application. Aucune donnée n'est envoyée ou reçue via Internet par l'Application elle-même.
+1. **INTERNET** : Cette permission est nécessaire pour :
+   - Afficher les publicités Google AdMob
+   - Permettre aux utilisateurs d'ouvrir les liens de contact de SOTRACO (numéro de téléphone, adresse email) depuis la page d'informations
+
+2. **ACCESS_NETWORK_STATE** : Permet de vérifier la connexion Internet pour charger les publicités
 
 ## Utilisation des informations
 
@@ -40,13 +58,24 @@ Les seules données utilisées par l'Application sont :
 
 ## Partage d'informations avec des tiers
 
-**Nous ne partageons aucune information avec des tiers** car nous ne collectons aucune information.
+**Nous ne collectons ni ne partageons directement vos données personnelles.**
+
+Cependant, l'Application utilise les services tiers suivants :
+
+### Google AdMob
+- **Objectif** : Affichage de publicités
+- **Données collectées par AdMob** : Identifiant publicitaire, informations sur l'appareil, données d'interaction avec les annonces
+- **Politique de confidentialité** : https://policies.google.com/privacy
+
+AdMob est conforme aux normes suivantes :
+- RGPD (pour les utilisateurs européens)
+- COPPA (protection des enfants)
+- Consentement des utilisateurs (selon la région)
 
 L'Application n'utilise pas :
-- Services d'analyse (analytics)
-- Publicité
-- Outils de suivi
-- Services cloud
+- Services d'analyse personnelle (analytics)
+- Outils de suivi personnalisés
+- Services cloud pour stocker vos données
 - Bases de données externes
 
 ## Sécurité
@@ -55,7 +84,14 @@ Bien que nous ne collections aucune donnée, nous nous engageons à garantir que
 
 ## Services tiers
 
-Lorsque vous utilisez les liens de contact depuis la page d'informations de l'Application (téléphone, email), vous quittez l'Application SOTRACO Bus et utilisez les applications natives de votre appareil. Ces interactions sont régies par les politiques de confidentialité de votre système d'exploitation mobile.
+### Google AdMob
+L'Application utilise Google AdMob pour afficher des publicités. AdMob peut utiliser des cookies et technologies similaires pour :
+- Afficher des publicités pertinentes
+- Mesurer l'efficacité des campagnes publicitaires
+- Prévenir la fraude publicitaire
+
+### Liens externes
+Lorsque vous utilisez les liens de contact depuis la page d'informations de l'Application (téléphone, email) ou cliquez sur une publicité, vous quittez l'Application CampusRide. Ces interactions sont régies par les politiques de confidentialité des services tiers concernés.
 
 ## Applications pour enfants
 
@@ -88,8 +124,8 @@ Vous pouvez désinstaller l'Application à tout moment pour supprimer toutes les
 
 Pour toute question ou préoccupation concernant cette politique de confidentialité, vous pouvez nous contacter :
 
-**Email** : [VOTRE_EMAIL@example.com]
-**Application** : SOTRACO Bus
+**Email** : ddiabri.dd@gmail.com
+**Application** : CampusRide
 **Localisation** : Ouagadougou, Burkina Faso
 
 ---
@@ -98,15 +134,19 @@ Pour toute question ou préoccupation concernant cette politique de confidential
 
 ### À propos de l'Application
 
-SOTRACO Bus est une application non officielle créée pour aider les usagers des transports publics à Ouagadougou. Elle fournit :
+CampusRide est une application non officielle créée pour aider les usagers des transports publics à Ouagadougou. Elle fournit :
 - Recherche d'itinéraires de bus
 - Informations sur les lignes SOTRACO
 - Suggestions de trajets avec correspondances
 - Informations de contact SOTRACO
 
-### Fonctionnement hors ligne
+### Fonctionnement de l'Application
 
-L'Application fonctionne entièrement hors ligne. Toutes les données de routes sont incluses dans l'Application et aucune connexion Internet n'est requise pour rechercher des itinéraires.
+Les fonctionnalités principales (recherche d'itinéraires, consultation des lignes) fonctionnent hors ligne. Toutes les données de routes sont incluses dans l'Application.
+
+Une connexion Internet est requise uniquement pour :
+- Afficher les publicités
+- Ouvrir les liens externes (contact SOTRACO)
 
 ### Open Source
 
@@ -115,4 +155,4 @@ Le code source de cette application est disponible sur : [URL_GITHUB]
 
 ---
 
-**Cette politique de confidentialité est effective à compter du 1er novembre 2025.**
+**Cette politique de confidentialité est effective à compter du 7 novembre 2025.**

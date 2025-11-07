@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'data/routes_data.dart';
 import 'models/bus_route.dart';
 import 'pages/info_page.dart';
 import 'pages/route_search_page.dart';
+import 'widgets/banner_ad_widget.dart';
 
-void main() {
-  runApp(const SotracoBusApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MobileAds.instance.initialize();
+  runApp(const CampusRideApp());
 }
 
-class SotracoBusApp extends StatelessWidget {
-  const SotracoBusApp({super.key});
+class CampusRideApp extends StatelessWidget {
+  const CampusRideApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Itinéraires des bus SOTRACO',
+      title: 'CampusRide - Itinéraires des bus',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
@@ -83,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         title: const Column(
           children: [
             Text(
-              'SOTRACO',
+              'CampusRide',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -188,6 +192,8 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
           ),
+          // Banner Ad at bottom
+          const BannerAdWidget(),
         ],
       ),
     );
